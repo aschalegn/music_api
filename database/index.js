@@ -1,5 +1,6 @@
 import mysql from "mysql2/promise";
 import { config } from "../config/index.js";
+import axios from "axios";
 
 export const pool = mysql.createPool({
     host: config.database.host,
@@ -87,17 +88,17 @@ class SQLDataBase {
     };
 };
 
+// constt url= https://jsonplaceholder.typicode.com/todos/
 class APIDataBase {
     constructor() { }
     async insert(url, obj) {
 
     }
 
-    async find(url, columns, query) {
-
+    async find(url, columns = [], query = {}) {
+        const { data } = await axios.get(url, {});
+        return data;
     };
-    
-    async findOne() { }
 
     async update(url, query, data) {
 
@@ -106,7 +107,15 @@ class APIDataBase {
     async delete(url, query) {
 
     };
+    // async findOne() { }
 };
+
+
+// class Database{
+
+// }
+
+
 
 
 const db = new SQLDataBase(pool);

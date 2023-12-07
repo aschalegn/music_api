@@ -1,4 +1,4 @@
-import { db } from "../../../database/index.js";
+import { apiDb, db } from "../../../database/index.js";
 import { findUsers, insertUser } from "../user.dal.js";
 import { encrypt, isEqual } from "../../../utils/bcrypt.js";
 import { AppError } from "../../../utils/Error.js";
@@ -35,7 +35,7 @@ const register = async (req, res) => {
 
 const loginUser = async (req, res) => {
     const { body } = req;
-    const users = await findUsers(db, { email: body.email });
+    const users = await findUsers(db, 'users', { email: body.email });
     if (!users.length) throw Error("password or email are not valid");
     // check if password is valid
     const isValid = await isEqual(body.password, users[0].password);
@@ -68,9 +68,13 @@ const loginUser = async (req, res) => {
 };
 
 const getUsersList = async (req, res) => {
-    const rows = await findUsers(db, {});
+    const rows = await findUsers(db, 'users', {});
     res.send(rows);
 };
 
+const getUsersFromAPI = async (req, res) => {
+    const result = await findUsers(apiDb, config.thirdParty.users, {});
+    res.send(result);
+}
 
-export const userController = { register, loginUser, getUsersList }
+export const userController = { register, loginUser, getUsersList, getUsersFromAPI }

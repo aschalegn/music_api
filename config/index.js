@@ -10,7 +10,8 @@ const {
     JWT_ACCESS_SECRET,
     JWT_REFRESH_SECRET,
     jWT_ACCESS_LIFESPAN,
-    jWT_REFRESH_LIFESPAN
+    jWT_REFRESH_LIFESPAN,
+    USERS_BASE_URL
 } = process.env;
 
 export const config = {
@@ -26,6 +27,9 @@ export const config = {
         refreshSecret: JWT_REFRESH_SECRET,
         accessLifeSpan: jWT_ACCESS_LIFESPAN,
         refreshLifeSpan: jWT_REFRESH_LIFESPAN
+    },
+    thirdParty: {
+        users: USERS_BASE_URL
     }
 };
 

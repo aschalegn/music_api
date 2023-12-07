@@ -11,8 +11,6 @@ app.use("/api/v1/artists", routes.artist);
 
 // log the error
 app.use((error, req, res, next) => {
-    console.log(error);
-    console.log(req.url);
     if (error instanceof AppError) {
         // logs
         res.status(error.httpStaus).send(error.message);
@@ -22,7 +20,5 @@ app.use((error, req, res, next) => {
     res.status(400).send("Some error happended, try letter");
 });
 
-// const arr = ["skfjnvkdj", "sndkj", 474];
-// const [first, second] = arr;
-// console.log(first, second);
+
 export { app };
