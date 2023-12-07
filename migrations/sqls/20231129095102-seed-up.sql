@@ -51,8 +51,17 @@ CREATE TABLE IF NOT EXISTS subscriptions (
 -- Table for the l
 CREATE TABLE IF NOT EXISTS logging (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    message VARCHAR(100),
-    domain VARCHAR(50),
-    type ENUM('info', 'error', 'warning') NOT NULL,
-    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    message VARCHAR(100) NOT NULL,
+    meta VARCHAR(200),
+    -- domain VARCHAR(50),
+    level VARCHAR(10) NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS files(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type VARCHAR(15) NOT NULL,
+    src VARCHAR(100) NOT NULL,
+    owner_id INT NOT NULL,
+    FOREIGN KEY (owner_id) REFERENCES users(user_id)
 );

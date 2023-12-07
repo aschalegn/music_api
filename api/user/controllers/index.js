@@ -77,4 +77,10 @@ const getUsersFromAPI = async (req, res) => {
     res.send(result);
 }
 
-export const userController = { register, loginUser, getUsersList, getUsersFromAPI }
+const updateUser = async (req, res) => {
+    const { body, file } = req;
+    console.log({ body, file });
+    res.send(file);
+};
+
+export const userController = { register, loginUser, getUsersList, getUsersFromAPI, updateUser };

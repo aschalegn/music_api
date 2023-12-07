@@ -3,3 +3,7 @@
 *.env
 
 /database/config/*
+
+/logs
+
+/uploads

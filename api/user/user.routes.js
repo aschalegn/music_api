@@ -3,6 +3,7 @@ import Joi from "joi";
 import { userController } from "./controllers/index.js";
 import { asyncWrap } from "../../utils/asyncWrap.js";
 import { authenticate, authorize } from "../../middlewares/auth.js";
+import { upload } from "../../utils/file_upload/multerCoonfig.js";
 const router = Router();
 
 const registerSchema = Joi.object({
@@ -27,6 +28,7 @@ router.get("/", authenticate, authorize(["admin", "regular"]), asyncWrap(userCon
 router.get("/users-from-api", asyncWrap(userController.getUsersFromAPI));
 router.post("/register", validate, asyncWrap(userController.register));
 router.post("/login", asyncWrap(userController.loginUser));
+router.patch("/:id", upload.single("profile_image"), asyncWrap(userController.updateUser));
 
 
 const joiSchema = {

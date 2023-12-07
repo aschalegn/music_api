@@ -8,9 +8,7 @@ app.listen(PORT, () => {
     console.log(`Running on port ${PORT}`);
 });
 
-// const num = 80;
-// console.log(num);
-// const arr = [9, 0, "ll"];
-// arr.push("dlkf");
-// arr = [",sm dn,"]
-// console.log(arr);
+// database + API
+// middlewares
+// token
+// middlewares
