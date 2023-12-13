@@ -11,7 +11,8 @@ const {
     JWT_REFRESH_SECRET,
     jWT_ACCESS_LIFESPAN,
     jWT_REFRESH_LIFESPAN,
-    USERS_BASE_URL
+    USERS_BASE_URL,
+    REDIS_URL
 } = process.env;
 
 export const config = {
@@ -30,7 +31,8 @@ export const config = {
     },
     thirdParty: {
         users: USERS_BASE_URL
-    }
+    },
+    redisUrl: REDIS_URL
 };
 
 // console.log(config.jwt);

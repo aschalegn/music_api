@@ -1,19 +1,15 @@
-import { app } from "./app.js";
-import dotenv from "dotenv";
 import http from "http";
 import os from "os";
+import cluster from "cluster";
+import dotenv from "dotenv";
+import { app } from "./app.js";
 
 
 dotenv.config();
 
 const cpus = os.cpus();
-// console.log(cpus.length);
 
 // const server = http.createServer();
-
-// server.on("request", (req, res) => { 
-
-// });
 
 // setTimeout
 // setInterval
@@ -32,15 +28,24 @@ const cpus = os.cpus();
 // number.then(n => { console.log(n); });
 // console.log("log 4");
 
-
-
 const PORT = process.env.PORT || 2222;
 
 // console.log(process);
 
+// console.log(cluster.isPrimary);
+// if (cluster.isPrimary) {
+//     console.log(`Primary cluster is ready pid: ${process.pid}`);
+//     // initaiate the worker proceses
+//     console.log(cpus.length);
+//     for (let i = 0; i < cpus.length / 2; i++) cluster.fork(cpus[i]);
+// }
+// else {
+// };
 app.listen(PORT, () => {
-    console.log(`Running on port ${PORT}`);
+    console.log(`Running on port ${PORT} on pid: ${process.pid}`);
 });
+
+// load balacer
 
 // database + API
 // middlewares

@@ -4,12 +4,13 @@ import { encrypt, isEqual } from "../../../utils/bcrypt.js";
 import { AppError } from "../../../utils/Error.js";
 import { jwtFuncs } from "../../../utils/jwt.js";
 import { config } from "../../../config/index.js";
+import { redisCatch as cashe } from "../../../utils/Redis.js";
 
 const register = async (req, res) => {
     const { body } = req;
     // check if exists by usign email
     const users = await findUsers(db, { email: body.email });
-
+    
     // console.log(req.url, req.originalUrl);
     if (users.length) throw new AppError({
         message: "Email is in the system",
@@ -29,6 +30,7 @@ const register = async (req, res) => {
 
     // insert to database
     const result = await insertUser(db, body);
+    // update the redit db;
     console.log(result);
     res.status(201).send({ id: result[0].insertId });
 }
@@ -62,18 +64,28 @@ const loginUser = async (req, res) => {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7
     });
-
     // return to client
+    // await cashe.DEL("users");
     res.send({ user: users[0], accessToken, refreshToken });
 };
 
 const getUsersList = async (req, res) => {
-    const rows = await findUsers(db, 'users', {});
-    res.send(rows);
+    let result = [];
+    const users = await cashe.GET("users");
+    if (!users) {
+        result = await findUsers(db, 'users', {});
+        await cashe.SET("users", JSON.stringify(result), 3);
+    }
+    else result = JSON.parse(users);
+    res.send(result);
 };
 
 const getUsersFromAPI = async (req, res) => {
-    const result = await findUsers(apiDb, config.thirdParty.users, {});
+    let users = await cashe.GET("api_users");
+    if (!result) {
+        result = await findUsers(apiDb, config.thirdParty.users, {});
+        await cashe.GET("api_users", JSON.stringify(result), 10000);
+    } else JSON.parse(users);
     res.send(result);
 }
 

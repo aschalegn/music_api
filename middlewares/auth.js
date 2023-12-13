@@ -26,7 +26,9 @@ export const authenticate = async (req, res, next) => {
         }
 
         if (!decoded.payload && !decoded.expired) return res.sendStatus(401);
-        //TODO:  check if refresh token is valid => done
+        //TODO:  check if refresh token is valid => done;
+        
+        // redis
         const refreshDecoded = await jwtFuncs.verifyToken(refreshToken, config.jwt.refreshSecret);
         if (!refreshDecoded.payload) return res.sendStatus(403);
 
