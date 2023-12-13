@@ -23,7 +23,8 @@ const validate = (req, res, next) => {
     }
 };
 
-router.get("/", authenticate, authorize(["admin", "regular"]), asyncWrap(userController.getUsersList));
+// router.get("/", authenticate, authorize(["admin", "regular"]), asyncWrap(userController.getUsersList));
+router.get("/", asyncWrap(userController.getUsersList));
 // router.get("/init", authenticate, (req, res) => { res.send({}) });
 router.get("/users-from-api", asyncWrap(userController.getUsersFromAPI));
 router.post("/register", validate, asyncWrap(userController.register));
