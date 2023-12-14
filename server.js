@@ -2,14 +2,31 @@ import http from "http";
 import os from "os";
 import cluster from "cluster";
 import dotenv from "dotenv";
+import { Server } from "socket.io";
 import { app } from "./app.js";
+
+import notification from "./notifications/index.js"
 
 
 dotenv.config();
 
 const cpus = os.cpus();
 
-// const server = http.createServer();
+const server = http.createServer(app);
+
+// console.log(server);
+
+const io = new Server(server, { cors: { origin: "*" } });
+
+
+notification(io);
+
+const PORT = process.env.PORT || 2222;
+server.listen(PORT, () => {
+    console.log(`Running on port ${PORT}`);
+});
+
+
 
 // setTimeout
 // setInterval
@@ -28,7 +45,7 @@ const cpus = os.cpus();
 // number.then(n => { console.log(n); });
 // console.log("log 4");
 
-const PORT = process.env.PORT || 2222;
+
 
 // console.log(process);
 
@@ -41,9 +58,7 @@ const PORT = process.env.PORT || 2222;
 // }
 // else {
 // };
-app.listen(PORT, () => {
-    console.log(`Running on port ${PORT} on pid: ${process.pid}`);
-});
+
 
 // load balacer
 

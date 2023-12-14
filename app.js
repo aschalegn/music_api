@@ -25,7 +25,7 @@ const blackList = ['http://127.0.0.1:5500'];
 //     methods: ['PUT'],
 //     credentials: true
 // }));
-
+app.use(cors());
 //gorigin: *
 //get, post, put, patch, update
 
@@ -85,6 +85,7 @@ app.use(morganMiddleware);
 
 app.use("/api/v1/users", routes.user);
 app.use("/api/v1/artists", routes.artist);
+app.use("/api/v1/songs", routes.song);
 
 
 
